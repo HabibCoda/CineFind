@@ -1,9 +1,5 @@
-"use client"
-
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
-import { movies } from '@/data/movies'
-import React from 'react'
 import { SiXiaomi } from 'react-icons/si'
 
 export default function About() {
@@ -167,31 +163,33 @@ export default function About() {
                         {/* Stat 1 */}
                         <div className="text-center">
                             <p className="text-4xl font-bold text-violet-300 sm:text-5xl">
-                                {new Set(movies.map((movie) => movie.id)).size}
+                                12
                             </p>
                             <p className="mt-3 text-sm text-gray-400 sm:text-base">
-                                Unique Movie Entries
+                                Featured Genres
                             </p>
                         </div>
+
                         {/* Stat 2 */}
                         <div className="text-center">
                             <p className="text-4xl font-bold text-violet-300 sm:text-5xl">
-                                {new Set(movies.map((movie) => movie.genre)).size}
+                                4
                             </p>
                             <p className="mt-3 text-sm text-gray-400 sm:text-base">
-                                Genres Represented
+                                Curated Collections
                             </p>
                         </div>
 
                         {/* Stat 3 */}
                         <div className="text-center">
                             <p className="text-4xl font-bold text-violet-300 sm:text-5xl">
-                                {new Set(movies.map((movie) => movie.year)).size}
+                                6
                             </p>
                             <p className="mt-3 text-sm text-gray-400 sm:text-base">
-                                Release Years
+                                Mood Selections
                             </p>
                         </div>
+
                         {/* Stat 4 */}
                         <div className="text-center">
                             <p className="text-4xl font-bold text-violet-300 sm:text-5xl">
@@ -217,6 +215,10 @@ export default function About() {
                         <p className="mt-4 max-w-2xl leading-7 text-gray-400">
                             CineFind is built around a simple idea: discovering a great film
                             should be part of the joy of watching one.
+                        </p>
+                        <p className="text-sm text-gray-400 text-center mt-3">
+                            These profiles are illustrative and represent the different perspectives
+                            that inspire CineFind.
                         </p>
                     </div>
                     {/* Profile Cards */}
@@ -267,7 +269,7 @@ export default function About() {
                         </article>
                     </div>
                 </section>
-                
+
                 {/* Call to Action */}
                 <section className="relative mt-20 overflow-hidden rounded-3xl border border-violet-400/20 bg-[#1b1920] px-6 py-16 text-center sm:px-12 lg:mt-28 lg:py-20">
 
@@ -306,9 +308,23 @@ export default function About() {
                 </section>
                 <div className='flex items-center justify-center gap-1.5 mt-10 text-sm'>
                     <p>
-                        Typograhy: MiSans by
+                        Typography: MiSans by
                     </p>
                     <span className='flex items-center gap-0.5'><SiXiaomi className='text-orange-500' /> Xiaomi.</span>
+                </div>
+                <div className="mt-10 text-center text-sm text-gray-400">
+                    <p>
+                        This product uses the{" "}
+                        <a
+                            href="https://www.themoviedb.org/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-white hover:text-violet-400 transition-colors"
+                        >
+                            TMDB API
+                        </a>{" "}
+                        but is not endorsed or certified by TMDB.
+                    </p>
                 </div>
             </main>
             <Footer />

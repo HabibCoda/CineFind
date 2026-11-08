@@ -54,10 +54,10 @@ export default function Hero({ movie }) {
               View Details
             </Link>
 
-            <button className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-5 py-3 text-xs font-semibold text-white backdrop-blur-sm transition hover:bg-white/10">
+            {/* <button className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-5 py-3 text-xs font-semibold text-white backdrop-blur-sm transition hover:bg-white/10">
               <FiPlay size={15} />
               Watch Trailer
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

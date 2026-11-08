@@ -1,8 +1,8 @@
-"use client";
-
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { movies } from "@/data/movies";
+import { fetchFromTMDB } from "@/lib/tmdb";
+import { formatMovie } from "@/lib/movies";
 import {
   FiZap,
   FiCompass,
@@ -17,130 +17,164 @@ import {
   FiBriefcase,
   FiVideo,
 } from "react-icons/fi";
+import Link from "next/link";
 
 const genres = [
-  {
-    number: "01",
-    name: "Action",
-    count: "420+ titles",
-    icon: FiZap,
-    image: movies[9].poster,
-  },
-  {
-    number: "02",
-    name: "Adventure",
-    count: "310+ titles",
-    icon: FiCompass,
-    image: movies[11].poster,
-  },
-  {
-    number: "03",
-    name: "Comedy",
-    count: "280+ titles",
-    icon: FiFilm,
-    image: movies[2].poster,
-  },
-  {
-    number: "04",
-    name: "Drama",
-    count: "650+ titles",
-    icon: FiHeart,
-    image: movies[1].poster,
-  },
-  {
-    number: "05",
-    name: "Horror",
-    count: "190+ titles",
-    icon: FiEye,
-    image: movies[8].poster,
-  },
-  {
-    number: "06",
-    name: "Sci-Fi",
-    count: "340+ titles",
-    icon: FiRadio,
-    image: movies[3].poster,
-  },
-  {
-    number: "07",
-    name: "Thriller",
-    count: "410+ titles",
-    icon: FiZap,
-    image: movies[4].poster,
-  },
-  {
-    number: "08",
-    name: "Animation",
-    count: "230+ titles",
-    icon: FiCopy,
-    image: movies[5].poster,
-  },
-  {
-    number: "09",
-    name: "Romance",
-    count: "290+ titles",
-    icon: FiHeart,
-    image: movies[6].poster,
-  },
-  {
-    number: "10",
-    name: "Mystery",
-    count: "180+ titles",
-    icon: FiSearch,
-    image: movies[7].poster,
-  },
-  {
-    number: "11",
-    name: "Crime",
-    count: "320+ titles",
-    icon: FiBriefcase,
-    image: movies[10].poster,
-  },
-  {
-    number: "12",
-    name: "Documentary",
-    count: "150+ titles",
-    icon: FiVideo,
-    image: movies[12].poster,
-  },
+  { number: "01", name: "Action", id: 28, icon: FiZap },
+  { number: "02", name: "Adventure", id: 12, icon: FiCompass },
+  { number: "03", name: "Animation", id: 16, icon: FiCopy },
+  { number: "04", name: "Comedy", id: 35, icon: FiFilm },
+  { number: "05", name: "Crime", id: 80, icon: FiBriefcase },
+  { number: "06", name: "Documentary", id: 99, icon: FiVideo },
+  { number: "07", name: "Drama", id: 18, icon: FiHeart },
+  { number: "08", name: "Horror", id: 27, icon: FiEye },
+  { number: "09", name: "Mystery", id: 9648, icon: FiSearch },
+  { number: "10", name: "Romance", id: 10749, icon: FiHeart },
+  { number: "11", name: "Sci-Fi", id: 878, icon: FiRadio },
+  { number: "12", name: "Thriller", id: 53, icon: FiZap },
 ];
-
 const collections = [
   {
     title: "Award-Winning Dramas",
     description:
-      "Palme d’Or, Oscar, and Golden Lion recipients spanning five decades.",
-    films: "28 Films",
+      "Highly acclaimed dramas recognized for their cinematic excellence.",
     label: "Editorial Pick",
-    images: [movies[1].poster, movies[6].poster, movies[8].poster],
+    params: {
+      with_genres: "18",
+      sort_by: "vote_average.desc",
+      "vote_count.gte": "500",
+    },
   },
   {
     title: "Mind-Bending Sci-Fi",
     description:
       "Non-linear narratives, existential paradoxes, and speculative futures.",
-    films: "34 Films",
     label: "Essential",
-    images: [movies[0].poster, movies[3].poster, movies[5].poster],
+    params: {
+      with_genres: "878,9648",
+      sort_by: "popularity.desc",
+    },
   },
   {
     title: "Modern Neo-Noir",
     description:
-      "Bleak urban morality tales rendered in shadow, neon, and rain.",
-    films: "22 Films",
+      "Crime and thriller stories filled with moral ambiguity and dark atmosphere.",
     label: "Staff Choice",
-    images: [movies[4].poster, movies[5].poster, movies[9].poster],
+    params: {
+      with_genres: "80,53",
+      "primary_release_date.gte": "2000-01-01",
+      sort_by: "popularity.desc",
+    },
   },
   {
     title: "Indie Discoveries",
     description:
-      "Radical independent voices from Sundance, Locarno, and TIFF.",
-    films: "41 Films",
+      "Lesser-known cinematic discoveries with strong audience appreciation.",
     label: "Hidden Gems",
-    images: [movies[6].poster, movies[7].poster, movies[8].poster],
+    params: {
+      sort_by: "vote_average.desc",
+      "vote_count.gte": "100",
+      "vote_count.lte": "2000",
+    },
   },
 ];
 
-export default function Genres() {
+const moods = [
+  {
+    title: "Something Thrilling",
+    params: {
+      with_genres: "53|28",
+      sort_by: "popularity.desc",
+    },
+  },
+  {
+    title: "Something Funny",
+    params: {
+      with_genres: "35",
+      sort_by: "popularity.desc",
+    },
+  },
+  {
+    title: "Something Emotional",
+    params: {
+      with_genres: "18|10749",
+      sort_by: "vote_average.desc",
+      "vote_count.gte": "100",
+    },
+  },
+  {
+    title: "Something Thought-Provoking",
+    params: {
+      with_genres: "878|9648",
+      sort_by: "vote_average.desc",
+      "vote_count.gte": "100",
+    },
+  },
+  {
+    title: "Something Romantic",
+    params: {
+      with_genres: "10749",
+      sort_by: "popularity.desc",
+    },
+  },
+  {
+    title: "Something Dark",
+    params: {
+      with_genres: "27|80",
+      sort_by: "popularity.desc",
+    },
+  },
+];
+
+async function getGenreData() {
+  const genreData = await Promise.all(
+    genres.map(async (genre) => {
+      const data = await fetchFromTMDB(
+        `/discover/movie?with_genres=${genre.id}&sort_by=popularity.desc&page=1`
+      );
+
+      const firstMovie = data.results?.[0];
+
+      return {
+        ...genre,
+        count: data.total_results,
+        image: firstMovie
+          ? formatMovie(firstMovie).poster
+          : "/placeholder.png",
+      };
+    })
+  )
+  return genreData
+};
+
+async function getCollectionData() {
+  return Promise.all(
+    collections.map(async (collection) => {
+      const params = new URLSearchParams({
+        ...collection.params,
+        page: "1",
+      });
+
+      const data = await fetchFromTMDB(
+        `/discover/movie?${params.toString()}`
+      );
+
+      return {
+        ...collection,
+        films: data.total_results,
+        images: data.results
+          .slice(0, 3)
+          .map((movie) => formatMovie(movie).poster),
+      };
+    })
+  );
+}
+
+export default async function Genres() {
+  const [genreData, collectionData] = await Promise.all([
+    getGenreData(),
+    getCollectionData(),
+  ]);
   return (
     <>
       <Navbar />
@@ -178,12 +212,13 @@ export default function Genres() {
         <section className="mt-10">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
 
-            {genres.map((genre) => {
+            {genreData.map((genre) => {
               const Icon = genre.icon;
 
               return (
-                <button
+                <Link
                   key={genre.name}
+                  href={`/movies?genre=${genre.id}`}
                   className="group relative h-44 overflow-hidden rounded-xl border border-white/5 bg-[#1b1920] text-left transition duration-300 hover:-translate-y-1 hover:border-violet-400/20"
                 >
                   {/* Background Image */}
@@ -216,12 +251,12 @@ export default function Genres() {
                       </h2>
 
                       <p className="mt-1 text-sm text-gray-400">
-                        {genre.count}
+                        {genre.count.toLocaleString()} titles
                       </p>
                     </div>
 
                   </div>
-                </button>
+                </Link>
               );
             })}
 
@@ -255,9 +290,10 @@ export default function Genres() {
           {/* Collection Cards */}
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
 
-            {collections.map((collection) => (
-              <div
+            {collectionData.map((collection) => (
+              <Link
                 key={collection.title}
+                href={`/movies?${new URLSearchParams(collection.params).toString()}`}
                 className="group overflow-hidden rounded-xl border border-white/5 bg-[#1b1920] transition duration-300 hover:-translate-y-1 hover:border-violet-400/20"
               >
 
@@ -289,12 +325,12 @@ export default function Genres() {
                   </p>
 
                   <div className="mt-5 flex items-center justify-between border-t border-white/5 pt-4 text-xs text-gray-500">
-                    <span>{collection.films}</span>
+                    <span>{collection.films.toLocaleString()} Films</span>
                     <span>{collection.label}</span>
                   </div>
 
                 </div>
-              </div>
+              </Link>
             ))}
 
           </div>
@@ -318,20 +354,14 @@ export default function Genres() {
           </div>
 
           <div className="flex flex-wrap gap-3">
-            {[
-              "Something Thrilling",
-              "Something Funny",
-              "Something Emotional",
-              "Something Thought-Provoking",
-              "Something Romantic",
-              "Something Dark",
-            ].map((mood) => (
-              <button
-                key={mood}
+            {moods.map((mood) => (
+              <Link
+                key={mood.title}
+                href={`/movies?${new URLSearchParams(mood.params).toString()}`}
                 className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-gray-300 transition hover:border-violet-400/30 hover:bg-violet-400/10 hover:text-violet-300"
               >
-                {mood}
-              </button>
+                {mood.title}
+              </Link>
             ))}
           </div>
 

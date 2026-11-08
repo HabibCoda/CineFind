@@ -127,7 +127,7 @@ export default function MovieRow({ title, movies }) {
             {/*  Mobile & Tablet */}
             <div className="space-y-6">
                 {/* Row 1 */}
-                <div ref={row1Ref} onScroll={() => { if (!row1Ref.current) return; const page = Math.round(row1Ref.current.scrollLeft / row1Ref.current.clientWidth); setRow1Page(page);}} className="movie-scrollbar overflow-x-auto">
+                <div ref={row1Ref} onScroll={() => { if (!row1Ref.current) return; const page = Math.round(row1Ref.current.scrollLeft / row1Ref.current.clientWidth); setRow1Page(page); }} className="movie-scrollbar overflow-x-auto">
                     <div className="flex gap-4">
                         {movies.slice(0, 6).map((movie) => (
                             <div
@@ -164,7 +164,7 @@ export default function MovieRow({ title, movies }) {
                 </div>
 
                 {/* Row 2 */}
-                <div ref={row2Ref} onScroll={() => { if (!row2Ref.current) return; const page = Math.round(row2Ref.current.scrollLeft / row2Ref.current.clientWidth); setRow2Page(page);}} className="movie-scrollbar overflow-x-auto">
+                <div ref={row2Ref} onScroll={() => { if (!row2Ref.current) return; const page = Math.round(row2Ref.current.scrollLeft / row2Ref.current.clientWidth); setRow2Page(page); }} className="movie-scrollbar overflow-x-auto">
                     <div className="flex gap-4">
                         {movies.slice(6, 12).map((movie) => (
                             <div

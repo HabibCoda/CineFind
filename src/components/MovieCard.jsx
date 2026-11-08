@@ -14,9 +14,9 @@ export default function MovieCard({ movie }) {
                 </div>
                 <div className='mt-3'>
                     <h3 className='truncate lg:text-sm md:text-xl sm:text-2xl font-md text-white'>{movie.title}</h3>
-                    <div className='flex justify-between text-md'>
+                    <div className='flex justify-between text-md gap-10'>
                         <span className='text-red-500'>{movie.year}</span>
-                        <span>{movie.genre}</span>
+                        <span className='truncate'>{movie.genre}</span>
                     </div>
                 </div>
             </Link>
