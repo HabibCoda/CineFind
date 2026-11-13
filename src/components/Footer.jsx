@@ -30,7 +30,7 @@ export default function Footer() {
               </span>
             </Link>
 
-            <p className="mt-4 text-sm leading-6 text-gray-500">
+            <p className="mt-4 text-sm leading-6 text-gray-400">
               Discover movies worth watching. Explore new releases,
               popular films, and hidden gems all in one place.
             </p>
@@ -45,28 +45,28 @@ export default function Footer() {
             <div className="mt-4 flex flex-col gap-3">
               <Link
                 href="/"
-                className="text-sm text-gray-500 transition hover:text-white"
+                className="text-sm text-gray-400 transition hover:text-white"
               >
                 Home
               </Link>
 
               <Link
                 href="/movies"
-                className="text-sm text-gray-500 transition hover:text-white"
+                className="text-sm text-gray-400 transition hover:text-white"
               >
                 Movies
               </Link>
 
               <Link
                 href="/genres"
-                className="text-sm text-gray-500 transition hover:text-white"
+                className="text-sm text-gray-400 transition hover:text-white"
               >
                 Genres
               </Link>
 
               <Link
                 href="/about"
-                className="text-sm text-gray-500 transition hover:text-white"
+                className="text-sm text-gray-400 transition hover:text-white"
               >
                 About
               </Link>
@@ -74,7 +74,7 @@ export default function Footer() {
           </div>
 
           {/* Socials */}
-          <div>
+          {/* <div>
             <h3 className="text-md font-medium text-white">
               Follow us
             </h3>
@@ -85,7 +85,7 @@ export default function Footer() {
                 aria-label="GitHub"
                 className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-gray-400 transition hover:border-violet-400/40 hover:bg-violet-400/10 hover:text-violet-300"
               >
-                <FiGithub size={16} />
+                <FiGithub aria-hidden="true" size={16} />
               </a>
 
               <a
@@ -93,7 +93,7 @@ export default function Footer() {
                 aria-label="Instagram"
                 className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-gray-400 transition hover:border-violet-400/40 hover:bg-violet-400/10 hover:text-violet-300"
               >
-                <FiInstagram size={16} />
+                <FiInstagram aria-hidden="true" size={16} />
               </a>
 
               <a
@@ -101,19 +101,19 @@ export default function Footer() {
                 aria-label="Twitter"
                 className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-gray-400 transition hover:border-violet-400/40 hover:bg-violet-400/10 hover:text-violet-300"
               >
-                <FiTwitter size={16} />
+                <FiTwitter aria-hidden="true" size={16} />
               </a>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Bottom */}
-        <div className="mt-10 flex flex-col gap-3 border-t border-white/5 pt-6 text-xs text-gray-600 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 flex flex-col gap-3 border-t border-white/5 pt-6 text-xs text-gray-400 sm:flex-row sm:items-center sm:justify-between">
           <p>
             © 2026 CineFind. All rights reserved.
           </p>
 
-          <div className="flex gap-5">
+          {/* <div className="flex gap-5">
             <Link
               href="#"
               className="transition hover:text-gray-400"
@@ -127,7 +127,7 @@ export default function Footer() {
             >
               Terms
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>

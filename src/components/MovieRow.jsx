@@ -48,7 +48,7 @@ export default function MovieRow({ title, movies }) {
                         {title}
                     </h2>
 
-                    <p className="mt-1 text-sm font-semibold text-gray-500">
+                    <p className="mt-1 text-sm text-gray-400">
                         Discover something worth watching.
                     </p>
                 </div>
@@ -72,7 +72,7 @@ export default function MovieRow({ title, movies }) {
                     className="absolute left-2 top-45 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-white/90 text-black transition hover:bg-white/10 hover:text-white cursor-pointer disabled:cursor-not-allowed disabled:opacity-30"
                     aria-label="Previous movies"
                 >
-                    <FiChevronLeft size={20} />
+                    <FiChevronLeft aria-hidden="true" size={20} />
                 </button>
                 {/* Desktop Carousel */}
                 <div className="overflow-hidden">
@@ -104,7 +104,7 @@ export default function MovieRow({ title, movies }) {
                     className="absolute right-2 top-45 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-white/90 text-black transition hover:bg-white/10 hover:text-white cursor-pointer disabled:cursor-not-allowed disabled:opacity-30"
                     aria-label="Next movies"
                 >
-                    <FiChevronRight size={20} />
+                    <FiChevronRight aria-hidden="true" size={20} />
                 </button>
                 {/* Page indicator */}
                 {totalPages > 1 && (

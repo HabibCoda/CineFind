@@ -1,3 +1,6 @@
+"use client";
+
+import Image from "next/image";
 import Link from "next/link";
 import { FiPlay, FiInfo, FiStar } from "react-icons/fi";
 
@@ -5,12 +8,20 @@ export default function Hero({ movie }) {
   return (
     <section className="relative min-h-155 overflow-hidden pt-16">
       {/* Background */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: `url(${movie.backdrop})`,
-        }}
-      />
+      <div className="absolute inset-0">
+        <Image
+          src={movie.backdrop}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = "/placeholder.svg";
+          }}
+          className="object-cover object-center"
+        />
+      </div>
 
       {/* Dark overlays */}
       <div className="absolute inset-0 bg-black/45" />

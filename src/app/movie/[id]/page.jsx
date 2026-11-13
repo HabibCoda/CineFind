@@ -60,10 +60,10 @@ export default function MovieDetails() {
 
   const poster = movie?.poster_path
     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-    : "/placeholder.png";
+    : "/placeholder.svg";
 
   const backdrop = movie?.backdrop_path
-    ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
+    ? `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`
     : poster;
 
   const year = movie?.release_date?.slice(0, 4) || "N/A";
@@ -185,6 +185,10 @@ export default function MovieDetails() {
             <img
               src={backdrop}
               alt=""
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = "/placeholder.svg";
+              }}
               className="h-full w-full object-cover"
             />
             <div className="absolute inset-0 bg-black/70" />
@@ -200,6 +204,10 @@ export default function MovieDetails() {
                 <img
                   src={poster}
                   alt={movie.title}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = "/placeholder.svg";
+                  }}
                   className="aspect-2/3 w-full object-cover"
                 />
               </div>
@@ -219,11 +227,11 @@ export default function MovieDetails() {
                 <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-gray-300">
                   <span>{year}</span>
                   <span className="flex items-center gap-1.5">
-                    <FiStar className="text-yellow-400 fill-yellow-400" />
+                    <FiStar aria-hidden="true" className="text-yellow-400 fill-yellow-400" />
                     {rating}
                   </span>
                   <span className="flex items-center gap-1.5">
-                    <FiClock />
+                    <FiClock aria-hidden="true" />
                     {movie.runtime || "N/A"} min
                   </span>
                   <span className="rounded-full border border-white/10 px-3 py-1">
@@ -265,7 +273,7 @@ export default function MovieDetails() {
                       rel="noopener noreferrer"
                       className="flex items-center gap-2 rounded-full text-sm bg-violet-400 px-6 py-3 font-semibold text-black transition hover:bg-violet-300"
                     >
-                      <FiPlay />
+                      <FiPlay aria-hidden="true"/>
                       Watch Trailer
                     </a>
                   ) : (
@@ -273,12 +281,12 @@ export default function MovieDetails() {
                       disabled
                       className="flex cursor-not-allowed items-center gap-2 rounded-full text-sm bg-violet-400/40 px-6 py-3 font-semibold text-gray-400"
                     >
-                      <FiPlay />
+                      <FiPlay aria-hidden="true"/>
                       Trailer Unavailable
                     </button>
                   )}
                   <button disabled title="Coming Soon" className="flex cursor-not-allowed items-center gap-2 rounded-full text-sm border border-white/10 bg-white/5 px-6 py-3 font-medium text-white transition hover:bg-white/10">
-                    <FiDownload />
+                    <FiDownload aria-hidden="true"/>
                     Download Movie
                     <span className="ml-1 rounded-full bg-violet-400/10 px-2 py-1 text-[10px] font-semibold text-violet-300">Coming Soon</span>
                   </button>
@@ -287,7 +295,7 @@ export default function MovieDetails() {
                     className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-gray-300 transition hover:bg-white/10 hover:text-white"
                     aria-label="Share movie"
                   >
-                    <FiShare2 />
+                    <FiShare2 aria-hidden="true"/>
                   </button>
                 </div>
               </div>
@@ -316,16 +324,20 @@ export default function MovieDetails() {
                     src={
                       actor.profile_path
                         ? `https://image.tmdb.org/t/p/w185${actor.profile_path}`
-                        : "/placeholder.png"
+                        : "/placeholder.svg"
                     }
                     alt=""
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = "/placeholder.svg";
+                    }}
                     className="aspect-auto object-center transition duration-500 group-hover:scale-105"
                   />
                 </div>
                 <h3 className="mt-3 w-full text-sm font-semibold text-white whitespace-normal wrap-break-word">
                   {actor.name}
                 </h3>
-                <p className="mt-1 max-w-full text-xs text-gray-500 whitespace-normal wrap-break-words leading-relaxed">
+                <p className="mt-1 max-w-full text-xs text-gray-300 whitespace-normal wrap-break-words leading-relaxed">
                   {actor.character || "Unknown"}
                 </p>
               </div>

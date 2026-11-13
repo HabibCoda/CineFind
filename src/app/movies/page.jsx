@@ -147,8 +147,8 @@ export default function Movies() {
           <h1 className='mt-4 text-4xl font-bold tracking-tight text-white md:text-5xl lg:text-4xl'>Explore Movies</h1>
           <p className='mx-auto mt-3 max-w-2xl text-base text-gray-400 md:text-lg lg:text-md'>Discover movies worth watching, handpicked across genres and cinematic eras.</p>
           <div className='mx-auto mt-8 flex max-w-2xl items-center rounded-full border border-white/10 bg-[#1b1920] px-5 py-3.5'>
-            <FiSearch className='mr-3 shrink-0 text-gray-400' size={15} />
-            <input type="text" value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setSelectedGenre(""); setCurrentPage(1); }} placeholder='Search by title...' className='w-full bg-transparent text-lg text-white outline-none placeholder:text-gray-500 md:text-base' />
+            <FiSearch aria-hidden="true" className='mr-3 shrink-0 text-gray-400' size={15} />
+            <input type="text" aria-label='Search movies by title' value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setSelectedGenre(""); setCurrentPage(1); }} placeholder='Search by title...' className='w-full bg-transparent text-lg text-white outline-none placeholder:text-gray-400 md:text-base' />
           </div>
         </section>
         <section className='mt-12'>
@@ -161,6 +161,7 @@ export default function Movies() {
                   setSearchQuery("");
                   setCurrentPage(1);
                 }}
+                aria-pressed={selectedGenre === genre.id}
                 className={`rounded-full border px-5 py-2.5 text-md cursor-pointer font-medium transition ${selectedGenre === genre.id
                   ? "border-violet-400/40 bg-violet-400/10 text-violet-300"
                   : "border-white/10 bg-white/3 text-gray-400 hover:border-violet-400/40 hover:bg-violet-400/10 hover:text-violet-300"
@@ -176,7 +177,7 @@ export default function Movies() {
           <div className='mb-6 flex items-end justify-between'>
             <div>
               <h2 className='text-2xl font-semibold text-white md:text-3xl'>All Movies</h2>
-              <p className='mt-1 text-sm text-gray-500'>{totalResults} movies to explore</p>
+              <p className='mt-1 text-sm text-gray-400'>{totalResults} movies to explore</p>
             </div>
           </div>
           {/* Movie Grid */}
@@ -223,10 +224,10 @@ export default function Movies() {
                     )
                   }
                   disabled={currentPage === 1}
-                  className='text-gray-500 transition hover:text-white cursor-pointer disabled:cursor-not-allowed disabled:opacity-30'
+                  className='text-gray-400 transition hover:text-white cursor-pointer disabled:cursor-not-allowed disabled:opacity-30'
                   aria-label="Previous page"
                 >
-                  <CgChevronDoubleLeft size={20} />
+                  <CgChevronDoubleLeft aria-hidden="true" size={20} />
                 </button>
 
                 {/* Compact page numbers */}
@@ -235,7 +236,7 @@ export default function Movies() {
                     return (
                       <span
                         key={`ellipsis-${index}`}
-                        className='text-gray-500'
+                        className='text-gray-400'
                       >
                         ...
                       </span>
@@ -246,6 +247,7 @@ export default function Movies() {
                     <button
                       key={page}
                       onClick={() => setCurrentPage(page)}
+                      aria-current={currentPage === page ? "page" : undefined}
                       className={`flex h-10 w-10 items-center justify-center rounded-lg text-xs font-medium transition ${currentPage === page
                         ? 'bg-violet-400 text-black'
                         : 'text-gray-400 hover:text-white'
@@ -264,10 +266,10 @@ export default function Movies() {
                     )
                   }
                   disabled={currentPage === totalPages}
-                  className='text-gray-500 transition hover:text-white cursor-pointer disabled:cursor-not-allowed disabled:opacity-30'
+                  className='text-gray-400 transition hover:text-white cursor-pointer disabled:cursor-not-allowed disabled:opacity-30'
                   aria-label="Next page"
                 >
-                  <CgChevronDoubleRight size={20} />
+                  <CgChevronDoubleRight aria-hidden="true" size={20} />
                 </button>
 
               </div>

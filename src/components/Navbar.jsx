@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { FiSearch } from "react-icons/fi";
 import { useState, useEffect, useRef } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { CiClock2 } from "react-icons/ci";
 // import { useRouter } from "next/router";
 
 export default function Navbar() {
@@ -44,6 +45,7 @@ export default function Navbar() {
                 const params = new URLSearchParams({
                     query,
                     page: "1",
+                    limit: "5",
                 });
 
                 const response = await fetch(`/api/movies?${params}`, {
@@ -185,10 +187,10 @@ export default function Navbar() {
 
     return (
         <header className="sticky top-0 left-0 right-0 z-50 border-b border-white/5 bg-background/90 backdrop-blur-xs">
-            <nav className="relative flex gap-5 h-20 w-full px-5 sm:px-8 md:px-12 lg:px-7 items-center justify-between">
+            <nav aria-label="Main navigation" className="relative flex gap-5 h-20 w-full px-5 sm:px-8 md:px-12 lg:px-7 items-center justify-between">
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2">
-                    <div className="flex h-18 w-18 items-center justify-center rounded-md bg-[#211d27]">
+                    <div className="flex h-fit w-18 items-center justify-center rounded-md bg-[#211d27]">
                         <img src="/Logo.jpeg" alt="Logo" />
                     </div>
 
@@ -199,7 +201,7 @@ export default function Navbar() {
                 {/* Search */}
                 <div ref={searchRef} className="hidden md:flex items-center gap-3 w-150 relative">
                     <div className="lg:w-full md:w-full items-center gap-2 rounded-full border border-white/5 bg-[#1b1920] px-4 py-2 sm:flex">
-                        <FiSearch className="text-gray-500" size={15} />
+                        <FiSearch aria-hidden="true" className="text-gray-400" size={15} />
 
                         <input
                             onKeyDown={(e) => {
@@ -207,20 +209,25 @@ export default function Navbar() {
                                 handleSearchKeyDown(e);
                             }}
                             type="text"
+                            id="desktop-movie-search"
+                            aria-label="Search movies"
+                            aria-controls="desktop-search-suggestions"
+                            aria-expanded={isSearchFocused}
+                            aria-activedescendant={selectedIndex >= 0 && searchResults[selectedIndex] ? `desktop-search-option-${searchResults[selectedIndex].id}` : undefined}
                             placeholder="Search movies..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             onFocus={() => setIsSearchFocused(true)}
-                            className="w-full bg-transparent text-md text-white outline-none placeholder:text-gray-500 lg:w-full"
+                            className="w-full bg-transparent text-md text-white outline-none placeholder:text-gray-400 lg:w-full"
                         />
                     </div>
 
                     {isSearchFocused && (
-                        <div className="absolute left-0 top-full mt-3 w-full rounded-xl border border-white/10 bg-[#1b1920] p-4 shadow-2xl">
+                        <div id="desktop-search-suggestions" aria-live="polite" className="absolute left-0 top-full mt-3 w-full rounded-xl border border-white/10 bg-[#1b1920] p-4 shadow-2xl">
                             {/* Search dropdown content will go here */}
                             {searchQuery.trim() ? (
                                 <div>
-                                    <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                    <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
                                         Search Results
                                     </p>
 
@@ -237,6 +244,7 @@ export default function Navbar() {
                                             {searchResults.map((movie, index) => (
                                                 <Link
                                                     key={movie.id}
+                                                    id={`desktop-search-option-${movie.id}`}
                                                     href={`/movie/${movie.id}`}
                                                     onClick={() => {
                                                         saveSearch(searchQuery);
@@ -279,7 +287,7 @@ export default function Navbar() {
                             ) : (
                                 <div>
                                     <div className="mb-3 flex items-center justify-between">
-                                        <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                        <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">
                                             Recent Searches
                                         </p>
 
@@ -301,7 +309,7 @@ export default function Navbar() {
                                                     onClick={() => setSearchQuery(item)}
                                                     className="flex items-center gap-3 rounded-lg p-2 text-left text-sm text-gray-300 transition hover:bg-white/5 hover:text-white"
                                                 >
-                                                    <span className="text-gray-500">◷</span>
+                                                    <span className="text-gray-400"> <CiClock2 /></span>
                                                     <span>{item}</span>
                                                 </button>
                                             ))}
@@ -327,12 +335,16 @@ export default function Navbar() {
                     <div>
                         <button
                             onClick={() => { setIsSearch(!isSearch); setIsOpen(false); }}
+                            aria-label={isSearch ? "Close search" : "Open search"}
+                            aria-expanded={isSearch}
                             className={`md:hidden p-2 rounded-lg transition-colors ${isSearch ? "text-violet-400 bg-violet-500/10" : "text-white hover:bg-muted"}`}
                         >
                             <FiSearch size={20} />
                         </button>
                         <button
                             onClick={() => { setIsOpen(!isOpen); setIsSearch(false); }}
+                            aria-label={isOpen ? "Close menu" : "Open menu"}
+                            aria-expanded={isOpen}
                             className={`md:hidden p-2 rounded-lg transition-colors ${isOpen ? "text-violet-400 bg-violet-500/10" : "text-white hover:bg-muted"}`}
                         >
                             <RxHamburgerMenu size={20} />
@@ -352,7 +364,7 @@ export default function Navbar() {
                 {isSearch && (
                     <div ref={mobileSearchRef} className="absolute left-0 top-full w-full border-t border-white/5 bg-background/95 px-6 py-6 backdrop-blur-md md:hidden">
                         <div className="flex max-w-md w-full items-center gap-2 rounded-full border border-white/5 bg-[#1b1920] px-4 py-2 md:hidden">
-                            <FiSearch className="text-gray-500" size={25} />
+                            <FiSearch className="text-gray-400" size={25} />
                             <input
                                 onKeyDown={(e) => {
                                     handleSearchSubmit(e);
@@ -363,15 +375,16 @@ export default function Navbar() {
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 onFocus={() => setIsSearchFocused(true)}
                                 type="text"
+                                aria-label="Search movies"
                                 placeholder="Search movies..."
-                                className="w-full bg-transparent text-md text-white outline-none placeholder:text-gray-500 lg:w-full"
+                                className="w-full bg-transparent text-md text-white outline-none placeholder:text-gray-400 lg:w-full"
                             />
                         </div>
                         {isSearchFocused && (
                             <div className="mt-3 w-full max-w-md rounded-xl border border-white/10 bg-[#1b1920] p-4 shadow-2xl">
                                 {searchQuery.trim() ? (
                                     <div>
-                                        <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                        <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
                                             Search Results
                                         </p>
 
@@ -428,7 +441,7 @@ export default function Navbar() {
                                 ) : (
                                     <div>
                                         <div className="mb-3 flex items-center justify-between">
-                                            <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                            <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">
                                                 Recent Searches
                                             </p>
 
@@ -450,7 +463,7 @@ export default function Navbar() {
                                                         onClick={() => setSearchQuery(item)}
                                                         className="flex items-center gap-3 rounded-lg p-2 text-left text-sm text-gray-300 transition hover:bg-white/5"
                                                     >
-                                                        <span className="text-gray-500">◷</span>
+                                                        <span className="text-gray-400">◷</span>
                                                         <span>{item}</span>
                                                     </button>
                                                 ))}

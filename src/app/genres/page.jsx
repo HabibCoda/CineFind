@@ -130,7 +130,7 @@ async function getGenreData() {
   const genreData = await Promise.all(
     genres.map(async (genre) => {
       const data = await fetchFromTMDB(
-        `/discover/movie?with_genres=${genre.id}&sort_by=popularity.desc&page=1`
+        `/discover/movie?with_genres=${genre.id}&sort_by=popularity.desc&page=1`, { revalidate: 3600 }
       );
 
       const firstMovie = data.results?.[0];
@@ -156,7 +156,7 @@ async function getCollectionData() {
       });
 
       const data = await fetchFromTMDB(
-        `/discover/movie?${params.toString()}`
+        `/discover/movie?${params.toString()}`, { revalidate: 3600 }
       );
 
       return {
@@ -240,6 +240,7 @@ export default async function Genres() {
                       </span>
 
                       <Icon
+                        aria-hidden="true"
                         size={18}
                         className="text-gray-300 transition group-hover:text-violet-300"
                       />
@@ -282,9 +283,9 @@ export default async function Genres() {
               </p>
             </div>
 
-            <button className="hidden text-sm font-medium text-violet-300 transition hover:text-violet-200 sm:block">
+            {/* <button className="hidden text-sm font-medium text-violet-300 transition hover:text-violet-200 sm:block">
               View All Series →
-            </button>
+            </button> */}
           </div>
 
           {/* Collection Cards */}
@@ -324,7 +325,7 @@ export default async function Genres() {
                     {collection.description}
                   </p>
 
-                  <div className="mt-5 flex items-center justify-between border-t border-white/5 pt-4 text-xs text-gray-500">
+                  <div className="mt-5 flex items-center justify-between border-t border-white/5 pt-4 text-xs text-gray-400">
                     <span>{collection.films.toLocaleString()} Films</span>
                     <span>{collection.label}</span>
                   </div>

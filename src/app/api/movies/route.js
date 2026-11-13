@@ -14,6 +14,7 @@ export async function GET(request) {
         const { searchParams } = new URL(request.url);
 
         const page = Math.max(1, Number(searchParams.get("page")) || 1);
+        const limit = Math.min(MOVIES_PER_PAGE, Math.max(1, Number(searchParams.get("limit")) || MOVIES_PER_PAGE));
         const query = searchParams.get("query")?.trim();
         const genreId = searchParams.get("genre");
 
@@ -86,29 +87,35 @@ export async function GET(request) {
 
             return `${endpoint}?${params.toString()}`;
         };
-        
-        const firstData = await fetchFromTMDB(buildEndpoint(tmdbPage));
 
+        const firstData = await fetchFromTMDB(buildEndpoint(tmdbPage));
+        if (!Array.isArray(firstData.results)) {
+            throw new Error("Invalid response from TMDB.");
+        }
         let results = [...firstData.results];
 
         if (
-            offset + MOVIES_PER_PAGE > TMDB_PAGE_SIZE &&
+            offset + limit > TMDB_PAGE_SIZE &&
             tmdbPage < firstData.total_pages &&
             tmdbPage < MAX_TMDB_PAGES
         ) {
             const secondData = await fetchFromTMDB(
                 buildEndpoint(tmdbPage + 1)
             );
+            if (!Array.isArray(secondData.results)) {
+                throw new Error("Invalid response from TMDB.");
+            }
 
             results = [...results, ...secondData.results];
         }
 
         const totalResults = firstData.total_results;
-        const accessubleResults = Math.min(totalResults, MAX_TMDB_PAGES * TMDB_PAGE_SIZE);
-        const totalPages = Math.ceil(accessubleResults / MOVIES_PER_PAGE);
+        const accessibleResults = Math.min(totalResults, MAX_TMDB_PAGES * TMDB_PAGE_SIZE);
+        const totalPages = Math.ceil(accessibleResults / MOVIES_PER_PAGE);
 
-        const movies = results
-            .slice(offset, offset + MOVIES_PER_PAGE)
+        const uniqueResults = Array.from(new Map(results.map((movie) => [movie.id, movie])).values());
+        const movies = uniqueResults
+            .slice(offset, offset + limit)
             .map(formatMovie);
 
         return Response.json({

@@ -5,7 +5,7 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
-    if (!id || !/^\d+$/.test(id)) {
+    if (!id || !/^[1-9]\d*$/.test(id)) {
       return Response.json(
         { success: false, message: "Invalid movie ID." },
         { status: 400 }

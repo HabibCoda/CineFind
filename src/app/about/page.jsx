@@ -66,7 +66,7 @@ export default function About() {
                         <span className="text-xs font-semibold uppercase tracking-[0.2em] text-violet-300">
                             Beyond the Algorithm
                         </span>
-                        <h2 className="mt-4 text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+                        <h2 className="mt-4 text-3xl font-bold leading-tight text-white sm:text-4xl">
                             Curated for the
                             <span className="text-violet-300"> curious.</span>
                         </h2>
@@ -95,7 +95,7 @@ export default function About() {
                         <span className="text-xs font-semibold uppercase tracking-[0.2em] text-violet-300">
                             What Guides Us
                         </span>
-                        <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
+                        <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl">
                             Our Core Principles
                         </h2>
                         <p className="mt-4 leading-7 text-gray-400">
@@ -209,7 +209,7 @@ export default function About() {
                         <span className="text-xs font-semibold uppercase tracking-[0.2em] text-violet-300">
                             The People Behind the Passion
                         </span>
-                        <h2 className="mt-3 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
+                        <h2 className="mt-3 text-3xl font-bold text-white sm:text-4xl">
                             A Cinephile's Perspective
                         </h2>
                         <p className="mt-4 max-w-2xl leading-7 text-gray-400">
@@ -280,7 +280,7 @@ export default function About() {
                         <span className="inline-block rounded-full border border-violet-400/20 bg-violet-400/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-violet-300">
                             Your Next Favourite Film Awaits
                         </span>
-                        <h2 className="mt-6 text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+                        <h2 className="mt-6 text-3xl font-bold leading-tight text-white sm:text-4xl">
                             Your next great story
                             <span className="block text-violet-300">
                                 starts here.
@@ -306,11 +306,11 @@ export default function About() {
                         </div>
                     </div>
                 </section>
-                <div className='flex items-center justify-center gap-1.5 mt-10 text-sm'>
+                <div className='flex items-center justify-center gap-1.5 mt-10 text-sm text-gray-300'>
                     <p>
                         Typography: MiSans by
                     </p>
-                    <span className='flex items-center gap-0.5'><SiXiaomi className='text-orange-500' /> Xiaomi.</span>
+                    <span className='flex items-center gap-0.5'><SiXiaomi aria-hidden="true" className='text-orange-500' /> Xiaomi.</span>
                 </div>
                 <div className="mt-10 text-center text-sm text-gray-400">
                     <p>

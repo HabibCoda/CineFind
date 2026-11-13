@@ -38,19 +38,19 @@ export function formatMovie(movie) {
     description: movie.overview || "No description available.",
     poster: movie.poster_path
       ? `${IMAGE_BASE_URL}w500${movie.poster_path}`
-      : "/placeholder.png",
+      : "/placeholder.svg",
     backdrop: movie.backdrop_path
-      ? `${IMAGE_BASE_URL}original${movie.backdrop_path}`
-      : "/placeholder.png",
+      ? `${IMAGE_BASE_URL}w1280${movie.backdrop_path}`
+      : "/placeholder.svg",
   };
 }
 
 export async function getTrendingMovies() {
   const data = await fetchFromTMDB("/trending/movie/week");
-  return data.results.map(formatMovie);
+  return Array.isArray(data.results)? data.results.map(formatMovie): [];
 }
 
 export async function getPopularMovies() {
   const data = await fetchFromTMDB("/movie/popular");
-  return data.results.map(formatMovie);
+  return Array.isArray(data.results)? data.results.map(formatMovie): [];
 }
